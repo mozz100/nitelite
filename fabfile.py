@@ -2,7 +2,8 @@
 from fabric.api import task, run, abort, sudo
 from fabric.operations import put, prompt
 from fabric.colors import green, yellow, red
-from fabric.contrib.files import upload_template
+from fabric.contrib.files import upload_template, exists
+from fabric.context_managers import cd
 
 def look_for(s="", cmd=""):
     """Run cmd, ensure s in output"""
@@ -46,3 +47,19 @@ def configure_wifi():
     # )
     sudo("ifdown wlan0")
     sudo("ifup wlan0")
+
+@task
+def install_nodejs():
+    put("scripts/install-nodejs.sh", "/tmp/install-nodejs.sh")
+    sudo("/bin/sh /tmp/install-nodejs.sh")
+
+@task
+def deploy():
+    with cd("/home/pi"):
+        if exists("nitelite"):
+            run("cd nitelite; git pull")
+        else:
+            run("git clone https://github.com/mozz100/nitelite.git")
+        
+        with cd("nitelite/express-app"):
+            run("npm install")
