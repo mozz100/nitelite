@@ -57,7 +57,7 @@ def install_nodejs():
 def deploy():
     with cd("/home/pi"):
         if exists("nitelite"):
-            run("cd nitelite; git pull")
+            run("cd nitelite; git reset --hard; git pull")
         else:
             run("git clone https://github.com/mozz100/nitelite.git")
         
