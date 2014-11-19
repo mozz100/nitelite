@@ -1,0 +1,16 @@
+; Notes:
+;  - Shell expansion ("~" or "$HOME") is not supported.  Environment
+;    variables can be expanded using this syntax: "%(ENV_HOME)s".
+;  - Comments must have a leading space: "a=b ;comment" not "a=b;comment".
+; echo_supervisord_conf to get a standard conf file
+
+[inet_http_server]         ; inet (TCP) server disabled by default
+port=0.0.0.0:9001        ; (ip_address:port specifier, *:port for all iface)
+username=mozz              ; (default is no username (open server))
+password=letmein               ; (default is no password (open server))
+
+[program:nitelite]
+command=/usr/local/bin/node app.js
+directory=/home/pi/nitelite/express-app
+autostart=true
+user=nobody

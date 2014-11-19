@@ -55,6 +55,9 @@ def install_nodejs():
 
 @task
 def deploy():
+    sudo("apt-get update")
+    sudo("apt-get install supervisor")
+    put("templates/supervisor_conf", "/etc/supervisor/conf.d/nitelite.conf", use_sudo=True)
     with cd("/home/pi"):
         if exists("nitelite"):
             run("cd nitelite; git reset --hard; git pull")
@@ -63,3 +66,4 @@ def deploy():
         
         with cd("nitelite/express-app"):
             run("npm install")
+    sudo("/etc/init.d/supervisor restart")
