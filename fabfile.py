@@ -49,19 +49,16 @@ def configure_wifi():
     sudo("ifup wlan0")
 
 @task
-def install_nodejs():
+def set_up():
+    sudo("apt-get update")
     put("scripts/install-nodejs.sh", "/tmp/install-nodejs.sh")
     sudo("/bin/sh /tmp/install-nodejs.sh")
     sudo("npm install -g bower")
-
-@task
-def deploy(skip_apt_update=False):
-    if not skip_apt_update:
-        sudo("apt-get update")
-    
     sudo("apt-get install supervisor")
     put("templates/supervisor_conf", "/etc/supervisor/conf.d/nitelite.conf", use_sudo=True)
-    
+
+@task
+def deploy():
     with cd("/home/pi"):
         if exists("nitelite"):
             run("cd nitelite; git reset --hard; git pull")
