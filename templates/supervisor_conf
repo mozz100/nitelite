@@ -17,6 +17,6 @@ user=nobody
 
 [program:nitelite-pin_setter]
 command=/usr/bin/python server.py
-directory=/home/pi/nitelite/pin_setter/server.py
+directory=/home/pi/nitelite/pin_setter
 autostart=true
 user=root ; requires root for GPIO control

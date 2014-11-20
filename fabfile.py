@@ -82,7 +82,7 @@ def is_available(what):
     print is_installed(what)
 
 @task
-def deploy():
+def deploy(skip_install=False):
     with cd("/home/pi"):
         if exists("nitelite"):
             run("cd nitelite; git reset --hard; git pull")
@@ -90,8 +90,9 @@ def deploy():
             run("git clone https://github.com/mozz100/nitelite.git")
         
         with cd("nitelite/express-app"):
-            run("npm install")
-            run("bower install -s")
+            if not skip_install:
+                run("npm install")
+                run("bower install -s")
 
     sudo("/etc/init.d/supervisor restart")
     sudo("/etc/init.d/nginx restart")    
