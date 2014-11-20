@@ -52,6 +52,7 @@ def configure_wifi():
 def install_nodejs():
     put("scripts/install-nodejs.sh", "/tmp/install-nodejs.sh")
     sudo("/bin/sh /tmp/install-nodejs.sh")
+    sudo("npm install -g bower")
 
 @task
 def deploy(skip_apt_update=False):
@@ -61,8 +62,6 @@ def deploy(skip_apt_update=False):
     sudo("apt-get install supervisor")
     put("templates/supervisor_conf", "/etc/supervisor/conf.d/nitelite.conf", use_sudo=True)
     
-    sudo("npm install -g bower")
-
     with cd("/home/pi"):
         if exists("nitelite"):
             run("cd nitelite; git reset --hard; git pull")
