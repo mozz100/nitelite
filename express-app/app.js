@@ -11,11 +11,15 @@ app.use('/css',              express.static('css'));
 
 app.post('/lite', function(req, res) {
     client.write('lite!');
-    res.send('lite');
+    res.redirect('/');
 });
 app.post('/nite', function(req, res) {
     client.write('nite!');
-    res.send('nite');
+    res.redirect('/');
+});
+app.post('/off', function(req, res) {
+    client.write('off!');
+    res.redirect('/');
 });
 
 client
