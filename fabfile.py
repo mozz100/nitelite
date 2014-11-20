@@ -54,10 +54,15 @@ def install_nodejs():
     sudo("/bin/sh /tmp/install-nodejs.sh")
 
 @task
-def deploy():
-    sudo("apt-get update")
+def deploy(skip_apt_update=False):
+    if not skip_apt_update:
+        sudo("apt-get update")
+    
     sudo("apt-get install supervisor")
     put("templates/supervisor_conf", "/etc/supervisor/conf.d/nitelite.conf", use_sudo=True)
+    
+    sudo("npm install -g bower")
+
     with cd("/home/pi"):
         if exists("nitelite"):
             run("cd nitelite; git reset --hard; git pull")
@@ -66,4 +71,5 @@ def deploy():
         
         with cd("nitelite/express-app"):
             run("npm install")
+            run("bower install -s")
     sudo("/etc/init.d/supervisor restart")
