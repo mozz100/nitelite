@@ -13,6 +13,13 @@ def look_for(s="", cmd=""):
     else:
         print green("%s found in `%s`." % (s, cmd))
 
+def is_installed(what):
+    """Crude determination of whether 'what' is installed on the PATH."""
+    output = run("which " + what, warn_only=True, quiet=True)
+    if what in output:
+        return True
+    return False
+
 @task
 def check_wifi():
     """
@@ -49,13 +56,29 @@ def configure_wifi():
     sudo("ifup wlan0")
 
 @task
-def set_up():
-    sudo("apt-get update")
-    put("scripts/install-nodejs.sh", "/tmp/install-nodejs.sh")
-    sudo("/bin/sh /tmp/install-nodejs.sh")
-    sudo("npm install -g bower")
-    sudo("apt-get install supervisor")
+def set_up(skip_apt=False):
+    if not skip_apt:
+        sudo("apt-get update")
+        sudo("apt-get install supervisor nginx")
+
+    if not is_installed("node"):
+        put("scripts/install-nodejs.sh", "/tmp/install-nodejs.sh")
+        sudo("/bin/sh /tmp/install-nodejs.sh")
+
+    if not is_installed("bower"):
+        sudo("npm install -g bower")
+
+    # Configure supervisor.d
     put("templates/supervisor_conf", "/etc/supervisor/conf.d/nitelite.conf", use_sudo=True)
+
+    # Configure nginx
+    sudo("rm -rf /etc/nginx/sites-enabled/default")
+    put("templates/nginx_conf", "/etc/nginx/sites-available/nitelite", use_sudo=True)
+    sudo("ln -s /etc/nginx/sites-available/nitelite /etc/nginx/sites-enabled/nitelite")
+
+@task
+def is_available(what):
+    print is_installed(what)
 
 @task
 def deploy():
@@ -68,4 +91,6 @@ def deploy():
         with cd("nitelite/express-app"):
             run("npm install")
             run("bower install -s")
+
     sudo("/etc/init.d/supervisor restart")
+    sudo("/etc/init.d/nginx restart")    
