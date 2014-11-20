@@ -74,7 +74,8 @@ def set_up(skip_apt=False):
     # Configure nginx
     sudo("rm -rf /etc/nginx/sites-enabled/default")
     put("templates/nginx_conf", "/etc/nginx/sites-available/nitelite", use_sudo=True)
-    sudo("ln -s /etc/nginx/sites-available/nitelite /etc/nginx/sites-enabled/nitelite")
+    if not exists("/etc/nginx/sites-enabled/nitelite"):
+        sudo("ln -s /etc/nginx/sites-available/nitelite /etc/nginx/sites-enabled/nitelite")
 
 @task
 def is_available(what):
