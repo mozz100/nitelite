@@ -9,7 +9,7 @@ var client = net.connect( { path: sockfile });
 app.use('/',                 express.static('pages'));
 app.use('/bower_components', express.static('bower_components'));
 app.use('/css',              express.static('css'));
-app.use(bodyParser.urlEncoded());
+app.use(bodyParser.urlencoded());
 app.post('/state', function(req, res) {
     client.write('state change');
     console.log(req.body);
