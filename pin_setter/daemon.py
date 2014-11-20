@@ -1,26 +1,27 @@
-#!/usr/bin/env python
+#!/usr/bin/env python -u
 # see http://stackoverflow.com/questions/11597284/how-do-i-create-a-python-socket-server-that-listens-on-a-file-descriptor
 import socket
 import os, os.path
 import time
+import sys
 
 sockfile = "/tmp/communicate.sock"
 
 if os.path.exists( sockfile ):
   os.remove( sockfile )
 
-print "Opening socket..."
+sys.stdout.write("Opening socket...")
 
 server = socket.socket( socket.AF_UNIX, socket.SOCK_STREAM )
 server.bind(sockfile)
 os.chmod(sockfile, 0777)  # allow anyone to read/write
 server.listen(5)
 
-print "Listening..."
+sys.stdout.write("Listening...")
 while True:
   conn, addr = server.accept()
 
-  print 'accepted connection'
+  sys.stdout.write('accepted connection')
 
   while True:
 
@@ -28,14 +29,14 @@ while True:
     if not data:
         break
     else:
-        print "-" * 20
-        print data
+        sys.stdout.write("-" * 20)
+        sys.stdout.write(data)
         if "DONE" == data:
             break
-print "-" * 20
-print "Shutting down..."
+sys.stdout.write("-" * 20)
+sys.stdout.write("Shutting down...")
 
 server.close()
 os.remove( sockfile )
 
-print "Done"
+sys.stdout.write("Done")
