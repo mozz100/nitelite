@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 var net = require('net');
 var sockfile = '/tmp/communicate.sock';
@@ -8,17 +9,11 @@ var client = net.connect( { path: sockfile });
 app.use('/',                 express.static('pages'));
 app.use('/bower_components', express.static('bower_components'));
 app.use('/css',              express.static('css'));
-
-app.post('/lite', function(req, res) {
-    client.write('lite!');
-    res.redirect('/');
-});
-app.post('/nite', function(req, res) {
-    client.write('nite!');
-    res.redirect('/');
-});
-app.post('/off', function(req, res) {
-    client.write('off!');
+app.use(bodyParser.urlEncoded());
+app.post('/state', function(req, res) {
+    client.write('state change');
+    console.log(req.body);
+    client.write(req.body.state);
     res.redirect('/');
 });
 

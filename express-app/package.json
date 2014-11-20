@@ -6,6 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "body-parser": "^1.9.2",
     "express": "~4.9.0"
   }
 }
