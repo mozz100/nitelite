@@ -10,18 +10,18 @@ sockfile = "/tmp/communicate.sock"
 if os.path.exists( sockfile ):
   os.remove( sockfile )
 
-sys.stdout.write("Opening socket...")
+sys.stdout.write("Opening socket..." + "\n")
 
 server = socket.socket( socket.AF_UNIX, socket.SOCK_STREAM )
 server.bind(sockfile)
 os.chmod(sockfile, 0777)  # allow anyone to read/write
 server.listen(5)
 
-sys.stdout.write("Listening...")
+sys.stdout.write("Listening..." + "\n")
 while True:
   conn, addr = server.accept()
 
-  sys.stdout.write('accepted connection')
+  sys.stdout.write('accepted connection' + "\n")
 
   while True:
 
@@ -29,14 +29,14 @@ while True:
     if not data:
         break
     else:
-        sys.stdout.write("-" * 20)
-        sys.stdout.write(data)
+        sys.stdout.write("-" * 20 + "\n")
+        sys.stdout.write(data + "\n")
         if "DONE" == data:
             break
-sys.stdout.write("-" * 20)
-sys.stdout.write("Shutting down...")
+sys.stdout.write("-" * 20 + "\n")
+sys.stdout.write("Shutting down..." + "\n")
 
 server.close()
 os.remove( sockfile )
 
-sys.stdout.write("Done")
+sys.stdout.write("Done" + "\n")
