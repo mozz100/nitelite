@@ -4,6 +4,16 @@ import socket
 import os, os.path
 import time
 import sys
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BOARD)
+NITE = 5
+LITE = 3
+GPIO.setup(NITE, GPIO.OUT)
+GPIO.setup(LITE, GPIO.OUT)
+
+GPIO.output(NITE, 1)
+GPIO.output(LITE, 1)
 
 sockfile = "/tmp/communicate.sock"
 
@@ -29,8 +39,19 @@ while True:
     if not data:
         break
     else:
-        sys.stdout.write("-" * 20 + "\n")
+        #sys.stdout.write("-" * 20 + "\n")
         sys.stdout.write(data + "\n")
+
+        if data == "lite":
+          GPIO.output(NITE, 0)
+          GPIO.output(LITE, 1)
+        if data == "nite":
+          GPIO.output(NITE, 1)
+          GPIO.output(LITE, 0)
+        if data == "off":
+          GPIO.output(NITE, 0)
+          GPIO.output(LITE, 0)
+          
         if "DONE" == data:
             break
 sys.stdout.write("-" * 20 + "\n")
@@ -38,5 +59,6 @@ sys.stdout.write("Shutting down..." + "\n")
 
 server.close()
 os.remove( sockfile )
+GPIO.cleanup()
 
 sys.stdout.write("Done" + "\n")
