@@ -10,7 +10,7 @@ username=mozz              ; (default is no username (open server))
 password=letmein               ; (default is no password (open server))
 
 [program:nitelite-ui]
-command=/usr/local/bin/node app.js
+command=/usr/bin/authbind /usr/local/bin/node app.js
 directory=/home/pi/nitelite/express-app
 autostart=true
 user=nobody

@@ -59,7 +59,7 @@ def configure_wifi():
 def set_up(skip_apt=False):
     if not skip_apt:
         sudo("apt-get update")
-        sudo("apt-get install supervisor nginx")
+        sudo("apt-get install supervisor authbind")
 
     if not is_installed("node"):
         put("scripts/install-nodejs.sh", "/tmp/install-nodejs.sh")
@@ -71,11 +71,13 @@ def set_up(skip_apt=False):
     # Configure supervisor.d
     put("templates/supervisor_conf", "/etc/supervisor/conf.d/nitelite.conf", use_sudo=True)
 
-    # Configure nginx
-    sudo("rm -rf /etc/nginx/sites-enabled/default")
-    put("templates/nginx_conf", "/etc/nginx/sites-available/nitelite", use_sudo=True)
-    if not exists("/etc/nginx/sites-enabled/nitelite"):
-        sudo("ln -s /etc/nginx/sites-available/nitelite /etc/nginx/sites-enabled/nitelite")
+    # Allow 'nobody' to use port 80
+    sudo("touch                /etc/authbind/byport/80")
+    sudo("chown nobody:root    /etc/authbind/byport/80")
+    sudo("chmod 750            /etc/authbind/byport/80")
+
+    
+
 
 @task
 def is_available(what):
@@ -95,4 +97,4 @@ def deploy(skip_install=False):
                 run("bower install -s")
 
     sudo("/etc/init.d/supervisor restart")
-    sudo("/etc/init.d/nginx restart")    
+
