@@ -1,4 +1,4 @@
-var client = new Faye.Client('/');
+var client = new Faye.Client('/faye');
 
 client.subscribe('/state', function(data) {
   alert('data: ' + data.state);
