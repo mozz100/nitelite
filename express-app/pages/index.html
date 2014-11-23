@@ -21,13 +21,8 @@
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
         <div class="cover-container">
-          <div class="inner cover">
-            <h1 class="cover-heading">
-                <i class="fa fa-moon-o nite"></i>
-                Nitelite
-                <i class="fa fa-sun-o lite"></i>
-            </h1>
-            <form action="/state" method="POST">
+          <div class="inner cover" style="padding-top: 100px;">
+            <form id="state" action="/state" method="POST">
               <p>
                 <button name="state" value="nite" type="submit" class="btn btn-lg btn-default">
                   <i class="fa fa-moon-o nite"></i> Nite
@@ -40,6 +35,17 @@
                 <button name="state" value="off" type="submit" class="btn btn-lg btn-default">
                   <i class="fa fa-power-off"></i> Off
                 </button>
+              </p>
+            </form>
+
+            <form role="form" id="times">
+              <p>
+                <label for="nitetime"><i class="fa fa-moon-o nite"></i>:</label>
+                <input type="time" id="nitetime" name="nitetime" value="00:00">
+              </p>
+              <p>
+                <label for="litetime"><i class="fa fa-sun-o lite"></i>:</label>
+                <input type="time" id="litetime" name="litetime" value="00:00">
               </p>
             </form>
           </div>

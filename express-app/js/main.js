@@ -6,7 +6,7 @@ client.subscribe('/state', function(data) {
 
 // intercept form POSTs and do with AJAX
 $('input[type="submit"], button[type="submit"]').click(function(e) {
-    var frm = $('form');
+    var frm = $('form#state');
     e.preventDefault();
     var btn = $(e.delegateTarget);
     $.post(frm.attr('action'), btn.attr('name')+'='+btn.attr('value'));

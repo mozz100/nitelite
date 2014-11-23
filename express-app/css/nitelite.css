@@ -29,3 +29,17 @@
 .btn-current, .btn-current:focus, .btn-current:hover {
     background-color: rgba(200,200,200,0.5);
 }
+
+input[type="time"]::-webkit-clear-button {
+    display: none;
+}
+#times {
+    font-size: 150%;
+    margin-top: 100px;
+}
+
+#times input {
+    background-color: transparent;
+    border: none;
+    min-height: 2em;
+}
