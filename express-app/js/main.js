@@ -1,4 +1,4 @@
-var client = new Faye.Client('http://localhost:3000/');
+var client = new Faye.Client('/');
 
 client.subscribe('/state', function(data) {
   alert('data: ' + data.state);
