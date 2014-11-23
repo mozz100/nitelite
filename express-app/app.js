@@ -6,6 +6,7 @@ var sockfile   = '/tmp/communicate.sock';
 var faye       = require('faye');
 var bayeux     = new faye.NodeAdapter({mount: '/faye', timeout: 45});
 var fayeClient = bayeux.getClient();
+var state      = '';
 
 // Inter-process communications with the python process
 var client = net.connect( { path: sockfile });
@@ -14,9 +15,9 @@ client.on('connect', function () {
     client.write('hello');
 });
 client.on('data', function (data) {
-    newState = data.toString();
-    console.log('data', newState);
-    fayeClient.publish('/state', { state: newState });
+    state = data.toString();
+    console.log('data', state);
+    fayeClient.publish('/state', { state: state });
 });
 client.on('error', function (err) {
     console.error('error', err);
@@ -36,6 +37,9 @@ app.use(bodyParser.urlencoded());
 app.post('/state', function(req, res) {
     client.write(req.body.state);
     res.redirect('/');
+});
+app.get('/state', function(req, res) {
+    res.send({state: state});
 });
 
 // Start up the server
