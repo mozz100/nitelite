@@ -6,12 +6,20 @@ import time
 import sys
 import RPi.GPIO as GPIO
 
+# GPIO pin set up.
 GPIO.setmode(GPIO.BOARD)
 NITE = 5
 LITE = 3
 GPIO.setup(NITE, GPIO.OUT)
 GPIO.setup(LITE, GPIO.OUT)
 
+STATES = {    # nite, lite
+  "nite":     [1,     0],
+  "lite":     [0,     1],
+  "off":      [0,     0],
+}
+
+# Start up with both nite and lite on
 GPIO.output(NITE, 1)
 GPIO.output(LITE, 1)
 
@@ -41,16 +49,12 @@ while True:
     else:
         #sys.stdout.write("-" * 20 + "\n")
         sys.stdout.write(data + "\n")
+        if data in STATES.keys():
+          GPIO.output(NITE, STATES[data][0])
+          GPIO.output(LITE, STATES[data][1])
 
-        if data == "lite":
-          GPIO.output(NITE, 0)
-          GPIO.output(LITE, 1)
-        if data == "nite":
-          GPIO.output(NITE, 1)
-          GPIO.output(LITE, 0)
-        if data == "off":
-          GPIO.output(NITE, 0)
-          GPIO.output(LITE, 0)
+          # Send the newly-setup state back to the socket
+          conn.send(data)
           
         if "DONE" == data:
             break
