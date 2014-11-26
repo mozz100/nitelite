@@ -1,12 +1,29 @@
-var express    = require('express');
-var bodyParser = require('body-parser');
-var app        = express();
-var net        = require('net');
-var sockfile   = '/tmp/communicate.sock';
-var faye       = require('faye');
-var bayeux     = new faye.NodeAdapter({mount: '/faye', timeout: 45});
-var fayeClient = bayeux.getClient();
-var state      = '';
+var express      = require('express');
+var bodyParser   = require('body-parser');
+var app          = express();
+var jf           = require('jsonfile');
+var net          = require('net');
+var sockfile     = '/var/nitelite/communicate.sock';
+var settingsfile = '/var/nitelite/settings.json';
+var faye         = require('faye');
+var bayeux       = new faye.NodeAdapter({mount: '/faye', timeout: 45});
+var fayeClient   = bayeux.getClient();
+var state        = '';
+var settings;
+
+jf.readFile(settingsfile, function(err, obj) {
+    if (err) {
+        settings = {
+            times: {
+                nitetime: "19:00",
+                litetime: "06:45",
+                offtime:  "07:30"
+            }
+        }
+    } else {
+        settings = obj;
+    }
+});
 
 // Inter-process communications with the python process
 var client = net.connect( { path: sockfile });
@@ -40,6 +57,17 @@ app.post('/state', function(req, res) {
 });
 app.get('/state', function(req, res) {
     res.send({state: state});
+});
+app.post('/times', function(req, res) {
+    settings.times.nitetime = req.body.nitetime;
+    settings.times.litetime = req.body.litetime;
+    settings.times.offtime  = req.body.offtime;
+    jf.writeFileSync(settingsfile, settings);
+    fayeClient.publish('/times', settings.times);
+    res.send(settings.times);
+});
+app.get('/times', function(req, res) {
+    res.send(settings.times);
 });
 
 // Start up the server

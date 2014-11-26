@@ -33,19 +33,23 @@
               </p>
               <p>
                 <button name="state" value="off" type="submit" class="btn btn-lg btn-default">
-                  <i class="fa fa-power-off"></i> Off
+                  <i class="fa fa-power-off off"></i> Off
                 </button>
               </p>
             </form>
 
-            <form role="form" id="times">
+            <form role="form" id="times" method="POST" action="/times">
               <p>
-                <label for="nitetime"><i class="fa fa-moon-o nite"></i>:</label>
-                <input type="time" id="nitetime" name="nitetime" value="00:00">
+                <label for="nitetime"><i class="fa fa-moon-o nite"></i></label>
+                <input type="time" id="nitetime" name="nitetime" value="">
               </p>
               <p>
-                <label for="litetime"><i class="fa fa-sun-o lite"></i>:</label>
-                <input type="time" id="litetime" name="litetime" value="00:00">
+                <label for="litetime"><i class="fa fa-sun-o lite"></i></label>
+                <input type="time" id="litetime" name="litetime" value="">
+              </p>
+              <p>
+                <label for="litetime"><i class="fa fa-power-off off"></i></label>
+                <input type="time" id="offtime" name="offtime" value="">
               </p>
             </form>
           </div>

@@ -76,8 +76,10 @@ def set_up(skip_apt=False):
     sudo("chown nobody:root    /etc/authbind/byport/80")
     sudo("chmod 750            /etc/authbind/byport/80")
 
-    
-
+    # Create /var/nitelite
+    sudo("mkdir -p /var/nitelite")
+    sudo("chmod -R g+w /var/nitelite")
+    sudo("chown -R nobody:root /var/nitelite")
 
 @task
 def is_available(what):

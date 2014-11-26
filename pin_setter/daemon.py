@@ -23,7 +23,7 @@ STATES = {    # nite, lite
 GPIO.output(NITE, 1)
 GPIO.output(LITE, 1)
 
-sockfile = "/tmp/communicate.sock"
+sockfile = "/var/nitelite/communicate.sock"
 
 if os.path.exists( sockfile ):
   os.remove( sockfile )
