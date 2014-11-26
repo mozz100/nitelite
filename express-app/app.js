@@ -45,8 +45,9 @@ function setJobs() {
             setState('off');
         })
     };
-    console.log('jobs set', jobs);
-    console.log('next nite', jobs.nitetime.nextInvocation());
+    console.log('next nite', jobs.nitetime.nextInvocation().toString());
+    console.log('next lite', jobs.litetime.nextInvocation().toString());
+    console.log('next off',  jobs.offtime.nextInvocation().toString());
 }
 
 function getRecurrenceRule(time) {
