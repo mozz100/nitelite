@@ -37,13 +37,13 @@ function setJobs() {
     jobs = {
         nitetime: schedule.scheduleJob(getRecurrenceRule(settings.times.nitetime), function() {
             setState('nite');
-        });
+        }),
         litetime: schedule.scheduleJob(getRecurrenceRule(settings.times.litetime), function() {
             setState('lite');
-        });
+        }),
         offtime: schedule.scheduleJob(getRecurrenceRule(settings.times.offtime), function() {
             setState('off');
-        });
+        })
     };
     console.log('jobs set', jobs);
     console.log('next nite', jobs.nitetime.nextInvocation());
