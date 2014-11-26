@@ -9,6 +9,7 @@
     "body-parser": "^1.9.2",
     "express": "~4.9.0",
     "faye": "^1.0.3",
-    "jsonfile": "^2.0.0"
+    "jsonfile": "^2.0.0",
+    "node-schedule": "^0.1.13"
   }
 }
