@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-from fabric.api import task, run, abort, sudo
-from fabric.operations import put, prompt
-from fabric.colors import green, yellow, red
-from fabric.contrib.files import upload_template, exists
+from fabric.api              import task, run, abort, sudo
+from fabric.operations       import put, prompt
+from fabric.colors           import green, yellow, red
+from fabric.contrib.files    import upload_template, exists
 from fabric.context_managers import cd
 
 def look_for(s="", cmd=""):
@@ -46,17 +46,15 @@ def configure_wifi():
         use_sudo=True,
         context={"ssid":ssid, "wpa_key":pwd}
     )
-    # upload_template(
-    #     "templates/etc_wpa_supplicant",
-    #     "/etc/wpa_supplicant/wpa_supplicant.conf",
-    #     use_sudo=True, mode=0600,
-    #     context={"ssid":ssid, "wpa_key":pwd}
-    # )
     sudo("ifdown wlan0")
     sudo("ifup wlan0")
 
 @task
 def set_up(skip_apt=False):
+    """
+    Install apt-packages, node and bower, set up port access and
+    folder for files/sockets.
+    """
     if not skip_apt:
         sudo("apt-get update")
         sudo("apt-get install supervisor authbind")
@@ -69,24 +67,32 @@ def set_up(skip_apt=False):
         sudo("npm install -g bower")
 
     # Configure supervisor.d
-    put("templates/supervisor_conf", "/etc/supervisor/conf.d/nitelite.conf", use_sudo=True)
+    ssid = prompt("Pick a username for supervisor web ui", default="mozz")
+    pwd  = prompt("Pick a password for supervisor web ui", default="letmein")
+
+    upload_template(
+        "templates/supervisor_conf",
+        "/etc/supervisor/conf.d/nitelite.conf",
+        use_sudo=True,
+        context={"user":user, "password":pwd}
+    )
 
     # Allow 'nobody' to use port 80
     sudo("touch                /etc/authbind/byport/80")
     sudo("chown nobody:root    /etc/authbind/byport/80")
     sudo("chmod 750            /etc/authbind/byport/80")
 
-    # Create /var/nitelite
-    sudo("mkdir -p /var/nitelite")
-    sudo("chmod -R g+w /var/nitelite")
+    # Create /var/nitelite with ownership & permissions
+    sudo("mkdir -p             /var/nitelite")
+    sudo("chmod -R g+w         /var/nitelite")
     sudo("chown -R nobody:root /var/nitelite")
 
 @task
-def is_available(what):
-    print is_installed(what)
-
-@task
 def deploy(skip_install=False):
+    """
+    Check out source code from github, ensure npm and bower
+    packages are installed, restart supervisor (and jobs).
+    """
     with cd("/home/pi"):
         if exists("nitelite"):
             run("cd nitelite; git reset --hard; git pull")

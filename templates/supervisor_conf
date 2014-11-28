@@ -4,10 +4,10 @@
 ;  - Comments must have a leading space: "a=b ;comment" not "a=b;comment".
 ; echo_supervisord_conf to get a standard conf file
 
-[inet_http_server]         ; inet (TCP) server disabled by default
-port=0.0.0.0:9001        ; (ip_address:port specifier, *:port for all iface)
-username=mozz              ; (default is no username (open server))
-password=letmein               ; (default is no password (open server))
+[inet_http_server]             ; inet (TCP) server disabled by default
+port=0.0.0.0:9001              ; (ip_address:port specifier, *:port for all iface)
+username={{user}}              ; (default is no username (open server))
+password={{pwd}}               ; (default is no password (open server))
 
 [program:nitelite-ui]
 command=/usr/bin/authbind /usr/local/bin/node app.js
@@ -19,4 +19,4 @@ user=nobody
 command=/usr/bin/python -u daemon.py
 directory=/home/pi/nitelite/pin_setter
 autostart=true
-user=root ; requires root for GPIO control
+user=root                      ; use root for GPIO control
