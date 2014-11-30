@@ -21,7 +21,7 @@ jf.readFile(settingsfile, function(err, obj) {
                 litetime: "06:45",
                 offtime:  "07:30"
             }
-        }
+        };
     } else {
         settings = obj;
     }
@@ -51,12 +51,12 @@ function setJobs() {
 }
 
 function getRecurrenceRule(time) {
-    var hour   = parseInt(time.split(":")[0]);
-    var minute = parseInt(time.split(":")[1]);
+    var hour   = parseInt(time.split(":")[0], 10);
+    var minute = parseInt(time.split(":")[1], 10);
     var rule = new schedule.RecurrenceRule();
     rule.hour = hour;
     rule.minute = minute;
-    return rule
+    return rule;
 }
 
 function setState(newState) {
