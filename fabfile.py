@@ -67,14 +67,15 @@ def set_up(skip_apt=False):
         sudo("npm install -g bower")
 
     # Configure supervisor.d
-    ssid = prompt("Pick a username for supervisor web ui", default="mozz")
+    user = prompt("Pick a username for supervisor web ui", default="mozz")
     pwd  = prompt("Pick a password for supervisor web ui", default="letmein")
 
     upload_template(
         "templates/supervisor_conf",
         "/etc/supervisor/conf.d/nitelite.conf",
         use_sudo=True,
-        context={"user":user, "password":pwd}
+        use_jinja=True,
+        context={"user":user, "pwd":pwd}
     )
 
     # Allow 'nobody' to use port 80
@@ -98,7 +99,7 @@ def deploy(skip_install=False):
             run("cd nitelite; git reset --hard; git pull")
         else:
             run("git clone https://github.com/mozz100/nitelite.git")
-        
+
         with cd("nitelite/express-app"):
             if not skip_install:
                 run("npm install")

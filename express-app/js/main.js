@@ -7,8 +7,8 @@ function showState(data) {
 function showTimes(data) {
     // Take the three times and put them into the corresponding <input> elements
     $.each(['nitetime', 'litetime', 'offtime'], function(index, prop) {
-        $('input#' + prop).val(data['prop']);
-    })
+        $('input#' + prop).val(data[prop]);
+    });
 }
 
 // Set up Faye client and listen for state and timer changes

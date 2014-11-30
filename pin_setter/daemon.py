@@ -51,7 +51,7 @@ sys.stdout.write("Opening socket..." + "\n")
 server = socket.socket( socket.AF_UNIX, socket.SOCK_STREAM )
 server.bind(sockfile)
 os.chmod(sockfile, 0777)  # allow anyone to read/write
-server.listen(backlog=5)
+server.listen(5)
 
 sys.stdout.write("Listening..." + "\n")
 while True:

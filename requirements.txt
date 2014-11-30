@@ -1,4 +1,6 @@
 Fabric==1.10.0
+Jinja2==2.7.3
+MarkupSafe==0.23
 ecdsa==0.11
 paramiko==1.15.1
 pycrypto==2.6.1
