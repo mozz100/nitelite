@@ -25,6 +25,7 @@
     background-color: transparent;
     color: white;
     margin: auto 0.2em;
+    width: 7em;
 }
 .btn-current, .btn-current:focus, .btn-current:hover {
     background-color: rgba(200,200,200,0.5);
@@ -35,7 +36,7 @@ input[type="time"]::-webkit-clear-button {
 }
 #times {
     font-size: 150%;
-    margin-top: 100px;
+    margin-top: 60px;
 }
 
 #times input {
