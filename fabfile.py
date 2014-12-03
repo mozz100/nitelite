@@ -57,7 +57,7 @@ def set_up(skip_apt=False):
     """
     if not skip_apt:
         sudo("apt-get update")
-        sudo("apt-get install supervisor authbind")
+        sudo("apt-get install supervisor authbind ntp")
 
     if not is_installed("node"):
         put("scripts/install-nodejs.sh", "/tmp/install-nodejs.sh")

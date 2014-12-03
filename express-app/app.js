@@ -61,6 +61,7 @@ function getRecurrenceRule(time) {
 
 function setState(newState) {
     client.write(newState);
+    state = newState;
 }
 
 // Inter-process communications with the python process

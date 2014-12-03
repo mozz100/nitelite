@@ -14,15 +14,20 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(NITE, GPIO.OUT)
 GPIO.setup(LITE, GPIO.OUT)
 
+nite_pwm = GPIO.PWM(NITE, 100)  # PWM at 100Hz
+
 STATES = {    # nite, lite
-  "nite":     [1,     0],
+  "bed":      [100,   0],
   "lite":     [0,     1],
+  "nite":     [10,    0],
   "off":      [0,     0],
 }
 
 def set_pins(new_state, conn):
-  # Set the pins low or high
-  GPIO.output(NITE, STATES[new_state][0])
+  global nite_pwm
+
+  # Set the pins
+  nite_pwm.start(NITE, STATES[new_state][0])  # PWM on the NITE pin
   GPIO.output(LITE, STATES[new_state][1])
   
   # Send (echo) the newly-setup state back to the calling process,
@@ -33,10 +38,11 @@ ACTIONS = {
   "nite": set_pins,
   "lite": set_pins,
   "off":  set_pins,
+  "bed":  set_pins,
 }
 
 # Start up with both nite and lite on.
-GPIO.output(NITE, 1)
+nite_pwm.start(NITE, 100)
 GPIO.output(LITE, 1)
 
 sockfile = "/var/nitelite/communicate.sock"
