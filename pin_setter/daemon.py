@@ -27,7 +27,7 @@ def set_pins(new_state, conn):
   global nite_pwm
 
   # Set the pins
-  nite_pwm.start(NITE, STATES[new_state][0])  # PWM on the NITE pin
+  nite_pwm.start(STATES[new_state][0])  # PWM on the NITE pin
   GPIO.output(LITE, STATES[new_state][1])
   
   # Send (echo) the newly-setup state back to the calling process,
@@ -42,7 +42,7 @@ ACTIONS = {
 }
 
 # Start up with both nite and lite on.
-nite_pwm.start(NITE, 100)
+nite_pwm.start(100)
 GPIO.output(LITE, 1)
 
 sockfile = "/var/nitelite/communicate.sock"
