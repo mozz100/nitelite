@@ -17,7 +17,8 @@ jf.readFile(settingsfile, function(err, obj) {
     if (err) {
         settings = {
             times: {
-                nitetime: "19:00",
+                bedtime:  "19:00",
+                nitetime: "19:15",
                 litetime: "06:45",
                 offtime:  "07:30"
             }
@@ -30,11 +31,15 @@ jf.readFile(settingsfile, function(err, obj) {
 
 function setJobs() {
     if (jobs) {
+        jobs.bedtime.cancel();
         jobs.nitetime.cancel();
         jobs.litetime.cancel();
         jobs.offtime.cancel();
     }
     jobs = {
+        bedtime: schedule.scheduleJob(getRecurrenceRule(settings.times.bedtime), function() {
+            setState('bed');
+        }),
         nitetime: schedule.scheduleJob(getRecurrenceRule(settings.times.nitetime), function() {
             setState('nite');
         }),
@@ -45,6 +50,7 @@ function setJobs() {
             setState('off');
         })
     };
+    console.log('next bed',  jobs.bedtime.nextInvocation().toString());
     console.log('next nite', jobs.nitetime.nextInvocation().toString());
     console.log('next lite', jobs.litetime.nextInvocation().toString());
     console.log('next off',  jobs.offtime.nextInvocation().toString());
@@ -98,6 +104,7 @@ app.get('/state', function(req, res) {
     res.send({state: state});
 });
 app.post('/times', function(req, res) {
+    settings.times.bedtime  = req.body.bedtime;
     settings.times.nitetime = req.body.nitetime;
     settings.times.litetime = req.body.litetime;
     settings.times.offtime  = req.body.offtime;

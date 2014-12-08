@@ -6,7 +6,7 @@ function showState(data) {
 }
 function showTimes(data) {
     // Take the three times and put them into the corresponding <input> elements
-    $.each(['nitetime', 'litetime', 'offtime'], function(index, prop) {
+    $.each(['bedtime', 'nitetime', 'litetime', 'offtime'], function(index, prop) {
         $('input#' + prop).val(data[prop]);
     });
 }
