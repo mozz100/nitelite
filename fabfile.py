@@ -5,6 +5,11 @@ from fabric.colors           import green, yellow, red
 from fabric.contrib.files    import upload_template, exists
 from fabric.context_managers import cd
 
+import os
+
+this_dir             = os.path.dirname(os.path.realpath(__file__))
+hue_config_file_path = os.path.join(this_dir, 'python_daemon', 'hue_config.json')
+
 def look_for(s="", cmd=""):
     """Run cmd, ensure s in output"""
     output = run(cmd)
@@ -57,7 +62,7 @@ def set_up(skip_apt=False):
     """
     if not skip_apt:
         sudo("apt-get update")
-        sudo("apt-get install supervisor authbind ntp")
+        sudo("apt-get install supervisor authbind ntp python-virtualenv")
 
     if not is_installed("node"):
         put("scripts/install-nodejs.sh", "/tmp/install-nodejs.sh")
@@ -99,6 +104,17 @@ def deploy(skip_install=False):
             run("cd nitelite; git reset --hard; git pull")
         else:
             run("git clone https://github.com/mozz100/nitelite.git")
+        
+        # Ensure virtualenv and python packages in place
+        with cd("nitelite"):
+            if not exists("venv"):
+                run("virtualenv --system-site-packages venv")
+            run("venv/bin/pip install -r python_daemon/requirements.txt")
+
+            # Copy over hue_config.json if found locally
+            if os.path.isfile(hue_config_file_path):
+                put(hue_config_file_path, "python_daemon/hue_config.json")
+
 
         with cd("nitelite/express-app"):
             if not skip_install:

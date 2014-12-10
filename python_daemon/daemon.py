@@ -6,6 +6,8 @@
 import socket, os, time, sys
 import RPi.GPIO as GPIO
 
+from hue import set_state as set_hue
+
 # GPIO pin set up, board mode for pin numbers.
 # Most convenient to use pin 6 for 0V/ground.
 NITE = 5
@@ -29,16 +31,20 @@ def set_pins(new_state, conn):
   # Set the pins
   nite_pwm.start(STATES[new_state][0])  # PWM on the NITE pin
   GPIO.output(LITE, STATES[new_state][1])
-  
+
   # Send (echo) the newly-setup state back to the calling process,
   # so the UI gets a notification that we're done
   conn.send(data)
 
+def go_to_state(new_state, conn):
+  set_pins(new_state, conn)
+  set_hue(new_state)
+
 ACTIONS = {
-  "nite": set_pins,
-  "lite": set_pins,
-  "off":  set_pins,
-  "bed":  set_pins,
+  "nite": go_to_state,
+  "lite": go_to_state,
+  "off":  go_to_state,
+  "bed":  go_to_state,
 }
 
 # Start up with both nite and lite on.

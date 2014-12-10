@@ -2,7 +2,7 @@
 # Single quotes around 'on' and 'off' are important.
 # Transition time should usually be the first instruction; in tenths of a second.
 
-light_ids: [3]
+light_ids: [1,2]
 
 bed:
     transitiontime: 50
@@ -12,6 +12,7 @@ bed:
     xy:             [0.1684,0.0416]
 nite:
     transitiontime: 300
+    brightness:     0
     'on':           No
 lite:
     transitiontime: 300

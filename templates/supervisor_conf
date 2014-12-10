@@ -16,7 +16,7 @@ autostart=true
 user=nobody
 
 [program:nitelite-daemon]
-command=/usr/bin/python -u daemon.py
+command=/home/pi/nitelite/venv/bin/python -u daemon.py
 directory=/home/pi/nitelite/python_daemon
 autostart=true
 user=root                      ; use root for GPIO control
