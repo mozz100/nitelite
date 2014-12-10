@@ -1,5 +1,5 @@
 # Requirements for deployment
-# (requirements for the Raspberry Pi are in pin_setter)
+# (requirements for the Raspberry Pi are in python_daemon)
 Fabric==1.10.0
 Jinja2==2.7.3
 MarkupSafe==0.23

@@ -15,8 +15,8 @@ directory=/home/pi/nitelite/express-app
 autostart=true
 user=nobody
 
-[program:nitelite-pin_setter]
+[program:nitelite-daemon]
 command=/usr/bin/python -u daemon.py
-directory=/home/pi/nitelite/pin_setter
+directory=/home/pi/nitelite/python_daemon
 autostart=true
 user=root                      ; use root for GPIO control
