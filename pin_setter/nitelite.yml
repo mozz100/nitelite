@@ -1,0 +1,25 @@
+---
+# Single quotes around 'on' and 'off' are important.
+# Transition time should usually be the first instruction; in tenths of a second.
+
+light_ids: [3]
+
+bed:
+    transitiontime: 50
+    'on':           Yes
+    brightness:     25
+    # blue
+    xy:             [0.1684,0.0416]
+nite:
+    transitiontime: 300
+    'on':           No
+lite:
+    transitiontime: 300
+    'on':           Yes
+    # not too bright!
+    brightness:     40
+    # daylight
+    xy:             [0.3124,0.3226]
+'off':
+    transitiontime: 5
+    'on':           No
