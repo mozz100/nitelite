@@ -12,7 +12,6 @@ bed:
     xy:             [0.1684,0.0416]
 nite:
     transitiontime: 300
-    brightness:     0
     'on':           No
 lite:
     transitiontime: 300
