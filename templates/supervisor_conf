@@ -4,6 +4,10 @@
 ;  - Comments must have a leading space: "a=b ;comment" not "a=b;comment".
 ; echo_supervisord_conf to get a standard conf file
 
+[supervisord]
+logfile_maxbytes=1000000
+logfile_backups=10
+
 [inet_http_server]             ; inet (TCP) server disabled by default
 port=0.0.0.0:9001              ; (ip_address:port specifier, *:port for all iface)
 username={{user}}              ; (default is no username (open server))
@@ -14,9 +18,17 @@ command=/usr/bin/authbind /usr/local/bin/node app.js
 directory=/home/pi/nitelite/express-app
 autostart=true
 user=nobody
+stdout_logfile_maxbytes=1000000
+stdout_logfile_backups=10
+stderr_logfile_maxbytes=1000000
+stderr_logfile_backups=10
 
 [program:nitelite-daemon]
 command=/home/pi/nitelite/venv/bin/python -u daemon.py
 directory=/home/pi/nitelite/python_daemon
 autostart=true
 user=root                      ; use root for GPIO control
+stdout_logfile_maxbytes=1000000
+stdout_logfile_backups=10
+stderr_logfile_maxbytes=1000000
+stderr_logfile_backups=10
