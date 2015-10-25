@@ -17,26 +17,28 @@ with open(hue_config_file_path, 'r') as f:
 with open(nitelite_config_path, 'r') as f:
     nitelite_config = yaml.safe_load(f.read())
 
-light_ids  = nitelite_config['light_ids']
 bridge     = Bridge(hue_config['hue']['address'], config_file_path=hue_config_file_path)
 
 # Use the phue API to get a dictionary with the light id as the key
-all_lights = bridge.get_light_objects('id')
-
-# Now get just the lights specified by the nitelite.yml file
-lights     = [all_lights[k] for k in all_lights.keys() if k in light_ids]
+lights = bridge.get_light_objects('id')
 
 def set_state(state_name):
     """
     Apply each property found in the named state.
-    States are defined in nitelite.yml.
+    States are defined for each light in nitelite.yml.
     """
-    desired_state = nitelite_config[state_name]
 
-    for l in lights:
+    # For every light defined in nitelite.yml...
+    for light_config in nitelite_config:
+        # ...get the Hue object we are going to operate on...
+        hue_light = lights[light_config['id']]
+        # ...and the dict of properties that we are going to apply to it.
+        desired_state = light_config[state_name]
+
+        # Now set 'em all.
         for prop in desired_state.keys():
-            print "%s: Setting %s to %s" % (l.name, prop, desired_state[prop])
-            setattr(l, prop, desired_state[prop])
+            print "%s: Setting %s to %s" % (hue_light.name, prop, desired_state[prop])
+            setattr(hue_light, prop, desired_state[prop])
 
 # Can call with a state name to use from the command line
 if __name__ == "__main__":

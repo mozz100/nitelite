@@ -2,24 +2,32 @@
 # Single quotes around 'on' and 'off' are important.
 # Transition time should usually be the first instruction; in tenths of a second.
 
-light_ids: [1,2]
+# 2 - lamp on bookshelf
+- id: 2
+  bed:
+      'on':           Yes
+      brightness:     80
+      xy:             [0.5235, 0.4138] # warm white
+  nite:
+      'on':           No
+  lite:
+      'on':           Yes
+      brightness:     40               # not too bright!
+      xy:             [0.3124,0.3226]  # daylight
+  'off':
+      'on':           No
 
-bed:
-    transitiontime: 50
-    'on':           Yes
-    brightness:     25
-    # blue
-    xy:             [0.1684,0.0416]
-nite:
-    transitiontime: 300
-    'on':           No
-lite:
-    transitiontime: 300
-    'on':           Yes
-    # not too bright!
-    brightness:     40
-    # daylight
-    xy:             [0.3124,0.3226]
-'off':
-    transitiontime: 5
-    'on':           No
+# 3 - main light in bedroom
+- id: 3
+  bed:
+      'on':           Yes
+      brightness:     25
+      xy:             [0.1684,0.0416]  # blue
+  nite:
+      'on':           No
+  lite:
+      'on':           Yes
+      brightness:     40               # not too bright!
+      xy:             [0.3124,0.3226]  # daylight
+  'off':
+      'on':           No
