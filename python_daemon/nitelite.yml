@@ -6,7 +6,7 @@
 - id: 2
   bed:
       'on':           Yes
-      brightness:     230
+      brightness:     254
       xy:             [0.5235, 0.4138] # warm white
   nite:
       'on':           No
