@@ -17,8 +17,9 @@
   'off':
       'on':           No
 
-# 3 - main light in bedroom
-- id: 3
+# 3 - main light in bedroom (broken, replaced)
+# 16 - main light in bedreeom (replacement)
+- id: 16
   bed:
       'on':           Yes
       brightness:     25
