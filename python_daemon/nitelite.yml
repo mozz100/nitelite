@@ -2,18 +2,17 @@
 # Single quotes around 'on' and 'off' are important.
 # Transition time should usually be the first instruction; in tenths of a second.
 
-# 2 - lamp on bookshelf
-- id: 2
+# 2 - lamp on bookshelf (now in sprudy)
+# 17 - lamp on bookshelf (now in sprudy)
+- id: 17
   bed:
       'on':           Yes
       brightness:     254
-      xy:             [0.5235, 0.4138] # warm white
   nite:
       'on':           No
   lite:
       'on':           Yes
       brightness:     40               # not too bright!
-      xy:             [0.3124,0.3226]  # daylight
   'off':
       'on':           No
 
