@@ -3,7 +3,7 @@
 # Transition time should usually be the first instruction; in tenths of a second.
 
 # 2 - lamp on bookshelf (now in sprudy)
-# 17 - lamp on bookshelf (now in sprudy)
+# 17 - lamp on bookshelf
 - id: 17
   bed:
       'on':           Yes
