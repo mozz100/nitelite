@@ -12,7 +12,7 @@
       'on':           No
   lite:
       'on':           Yes
-      brightness:     40               # not too bright!
+      brightness:     254               # not too bright!
   'off':
       'on':           No
 
@@ -27,7 +27,7 @@
       'on':           No
   lite:
       'on':           Yes
-      brightness:     40               # not too bright!
+      brightness:     180               # not too bright!
       xy:             [0.3124,0.3226]  # daylight
   'off':
       'on':           No
